@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jose Polanco · Freelance</title>
+<meta name="description" content="Jose Polanco is an EMT who builds software: websites, web apps and AI automations for small businesses and field teams. Remote, based in Queens, NY.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=IBM+Plex+Mono:wght@400;500&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F1F3F5; --card:#FFFFFF; --ink:#14171C; --muted:#56606B; --line:#CDD3DA;
+  --ems:#1D4FA3; --ems-ink:#FFFFFF;
+  --red:#D0262C; --yellow:#F0BF1A; --green:#1E8A4B;
+  --stock:#FBFAF3; --stock-ink:#14171C; --stock-line:#D9D5C3;
+  --shadow:0 1px 2px rgba(20,23,28,.06),0 12px 32px -12px rgba(20,23,28,.22);
+  --display:'Big Shoulders Display','Arial Narrow',sans-serif;
+  --body:'Public Sans',system-ui,-apple-system,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+  --wrap:1180px; --gutter:32px;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --paper:#0E1115; --card:#161A20; --ink:#E9EDF1; --muted:#97A2AE; --line:#2B323B;
+    --ems:#86A9F0; --ems-ink:#0E1115;
+    --stock:#ECE8D8; --stock-line:#CFC9B2;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 16px 40px -14px rgba(0,0,0,.7);
+    color-scheme:dark;
+  }
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 1.0625rem/1.6 var(--body);-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%;height:auto}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--ems);outline-offset:3px;border-radius:4px}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 var(--gutter)}
+.skip{position:absolute;left:-9999px;top:8px;background:var(--ink);color:var(--paper);padding:8px 12px;z-index:10}
+.skip:focus{left:8px}
+
+/* type */
+.eyebrow{font:500 .75rem/1.2 var(--mono);letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin:0 0 14px}
+h1,h2,h3{font-family:var(--display);text-transform:uppercase;margin:0;letter-spacing:.005em}
+h1{font-weight:900;font-size:clamp(3.6rem,9.4vw,7.6rem);line-height:.86}
+h2{font-weight:800;font-size:clamp(2.6rem,5.4vw,4.2rem);line-height:.9}
+h3{font-weight:800;font-size:2.1rem;line-height:.95}
+p{margin:0 0 1em}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:8px;height:48px;padding:0 22px;border-radius:6px;border:1.5px solid var(--ink);font:600 1rem/1 var(--body);text-decoration:none;transition:transform .15s ease,background .15s ease}
+.btn:hover{transform:translateY(-1px)}
+.btn.primary{background:var(--ems);border-color:var(--ems);color:var(--ems-ink)}
+.btn:not(.primary):hover{background:var(--card)}
+
+/* top bar */
+.top{border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;height:68px;gap:16px}
+.mark{display:flex;align-items:center;gap:10px;text-decoration:none;font:800 1.45rem/1 var(--display);text-transform:uppercase;letter-spacing:.02em}
+.mark i{display:flex;flex-direction:column;gap:2px}
+.mark i::before,.mark i::after,.mark i b{content:"";display:block;width:16px;height:4px;border-radius:1px}
+.mark i::before{background:var(--red)} .mark i b{background:var(--yellow)} .mark i::after{background:var(--green)}
+.top nav{display:flex;align-items:center;gap:26px;font-weight:500;font-size:.95rem}
+.top nav a{text-decoration:none}
+.top nav a:not(.btn):hover{text-decoration:underline;text-underline-offset:4px}
+.top nav .btn{height:40px;padding:0 16px;font-size:.95rem}
+
+/* hero */
+.hero{padding:72px 0 96px}
+.hero .wrap{display:grid;grid-template-columns:1.35fr .85fr;gap:56px;align-items:center}
+.lede{font-size:1.2rem;line-height:1.55;max-width:34em;margin:28px 0 32px;color:var(--ink)}
+.lede em{font-style:normal;background:linear-gradient(transparent 62%,color-mix(in srgb,var(--yellow) 55%,transparent) 62%)}
+.cta{display:flex;flex-wrap:wrap;gap:12px}
+
+/* the triage tag */
+.tag-hang{position:relative;justify-self:center;width:min(100%,340px);padding-top:70px}
+.tag-hang::before{content:"";position:absolute;left:50%;top:-80px;height:170px;width:2px;background:repeating-linear-gradient(var(--muted) 0 3px,transparent 3px 5px);opacity:.55;transform:translateX(-50%)}
+.tag{position:relative;margin:0;background:var(--stock);color:var(--stock-ink);border:1px solid var(--stock-line);border-radius:12px 12px 4px 4px;box-shadow:var(--shadow);transform-origin:50% -60px;transform:rotate(2.5deg);animation:swing 2.2s cubic-bezier(.3,.6,.3,1) both}
+@keyframes swing{0%{transform:rotate(-9deg)}30%{transform:rotate(6deg)}55%{transform:rotate(-1.5deg)}78%{transform:rotate(3.4deg)}100%{transform:rotate(2.5deg)}}
+.tag .hole{position:absolute;left:50%;top:16px;width:22px;height:22px;margin-left:-11px;border-radius:50%;background:var(--paper);box-shadow:0 0 0 5px #E6E0C6,inset 0 1px 2px rgba(0,0,0,.25)}
+.tag-body{padding:52px 22px 18px}
+.tag-head{display:flex;justify-content:space-between;font:500 .7rem/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;padding-bottom:10px;border-bottom:2px solid var(--stock-ink)}
+.tag-name{font:900 2.6rem/.9 var(--display);text-transform:uppercase;margin:14px 0 12px}
+.tag dl{margin:0;display:grid;gap:0}
+.tag dl div{display:grid;grid-template-columns:76px 1fr;gap:10px;padding:7px 0;border-bottom:1px solid var(--stock-line);font-size:.92rem;line-height:1.35}
+.tag dt{font:500 .68rem/1.9 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#5F5A47}
+.tag dd{margin:0;font-weight:600}
+.tear{border-top:2px dashed #A9A38A;margin-top:4px}
+.strip{display:flex;justify-content:space-between;align-items:baseline;padding:9px 22px;font:800 1.3rem/1 var(--display);text-transform:uppercase;letter-spacing:.03em}
+.strip small{font:500 .68rem/1 var(--mono);letter-spacing:.06em;text-transform:none;opacity:.9}
+.strip.r{background:var(--red);color:#fff}
+.strip.y{background:var(--yellow);color:#14171C}
+.strip.g{background:var(--green);color:#fff;border-radius:0 0 3px 3px}
+.tag-note{font:400 .7rem/1.4 var(--mono);color:var(--muted);text-align:center;margin:14px 0 0}
+
+/* sections */
+section{padding:96px 0;border-top:1px solid var(--line)}
+.sec-head{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:end;margin-bottom:56px}
+.sec-head p:last-child{color:var(--muted);max-width:30em;margin:0}
+
+/* chart fields — every project is filed like a report */
+.chart{margin:24px 0;display:grid;border-top:1px solid var(--line)}
+.chart div{display:grid;grid-template-columns:110px 1fr;gap:14px;padding:10px 0;border-bottom:1px solid var(--line)}
+.chart dt{font:500 .7rem/1.9 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.chart dd{margin:0;font-weight:500;line-height:1.45}
+.points{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.points li{position:relative;padding-left:20px;line-height:1.45}
+.points li::before{content:"";position:absolute;left:0;top:.5em;width:9px;height:9px;border:2px solid var(--ems);border-radius:2px}
+.status{display:inline-flex;align-items:center;gap:7px}
+.status::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--yellow);box-shadow:0 0 0 3px color-mix(in srgb,var(--yellow) 30%,transparent)}
+.status.live::before{background:var(--green);box-shadow:0 0 0 3px color-mix(in srgb,var(--green) 30%,transparent)}
+
+.shot{border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--card);box-shadow:var(--shadow)}
+.shot img{width:100%}
+.pixel img{image-rendering:pixelated}
+
+/* feature case */
+.case{display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:start}
+.stack{position:relative;padding:0 0 18% 0}
+.stack .back{width:100%}
+.stack .front{position:absolute;right:-18px;bottom:0;width:58%}
+.case p{max-width:34em}
+
+/* games */
+.subhead{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin:112px 0 28px;padding-top:28px;border-top:2px solid var(--ink)}
+.subhead h3{font-size:2.4rem}
+.subhead p{margin:0;color:var(--muted);max-width:30em}
+.games{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.game{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.game .shot{border:0;border-bottom:1px solid var(--line);border-radius:0;box-shadow:none;aspect-ratio:16/9}
+.game .shot img{height:100%;object-fit:cover}
+.game-body{padding:22px 22px 24px;display:flex;flex-direction:column;flex:1}
+.game-body h3{font-size:1.9rem;margin-bottom:10px}
+.game-body p{font-size:.98rem;color:var(--ink)}
+.game .chart{margin:auto 0 0}
+.game .chart div{grid-template-columns:86px 1fr;font-size:.92rem}
+
+/* pipeline */
+.pipe{margin-top:112px}
+.score{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:24px;box-shadow:var(--shadow)}
+.score-head{display:flex;justify-content:space-between;gap:12px;font:500 .7rem/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding-bottom:12px;border-bottom:1px solid var(--line)}
+.score-title{font:800 1.6rem/1 var(--display);text-transform:uppercase;margin:14px 0 18px}
+.row{display:grid;grid-template-columns:150px 1fr 52px;gap:12px;align-items:center;font-size:.9rem;padding:6px 0}
+.meter{height:8px;background:var(--line);border-radius:4px;overflow:hidden}
+.meter span{display:block;height:100%;background:var(--ems);border-radius:4px}
+.row b{font:500 .8rem/1 var(--mono);text-align:right}
+.total{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:16px;padding-top:16px;border-top:2px solid var(--ink)}
+.total strong{font:900 3.4rem/.8 var(--display)}
+.total strong small{font:500 .8rem var(--mono);color:var(--muted);margin-left:4px}
+.verdict{font:600 .9rem/1 var(--body);padding:9px 12px;border-radius:5px;background:var(--green);color:#fff}
+
+/* services */
+.services{display:grid;grid-template-columns:1fr 1fr;gap:0 56px}
+.svc{padding:26px 0;border-top:1px solid var(--line)}
+.svc h3{font-size:1.9rem;margin-bottom:10px}
+.svc p{color:var(--muted);margin:0;max-width:30em}
+.svc .proof{display:block;margin-top:12px;font:500 .72rem/1.4 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--ink)}
+.callout{margin-top:48px;display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:start;background:var(--card);border:1px solid var(--line);border-left:6px solid var(--red);border-radius:6px;padding:26px 28px}
+.callout h3{font-size:1.7rem;white-space:nowrap}
+.callout p{margin:0;max-width:44em}
+.ai-note{margin-top:28px;color:var(--muted);max-width:44em}
+
+/* process — a real sequence, so it is numbered */
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:28px;counter-reset:s}
+.steps li{counter-increment:s;border-top:2px solid var(--ink);padding-top:16px}
+.steps li::before{content:counter(s);display:block;font:900 3.6rem/.8 var(--display);color:var(--ems);margin-bottom:16px}
+.steps h3{font-size:1.6rem;margin-bottom:8px}
+.steps p{color:var(--muted);font-size:.98rem;margin:0}
+
+/* contact */
+.contact{padding:120px 0}
+.contact h2{font-size:clamp(3.2rem,8vw,6.4rem)}
+.contact p{font-size:1.2rem;max-width:30em;margin:22px 0 30px}
+.mail{font:800 clamp(1.6rem,4.6vw,3rem)/1 var(--display);text-transform:lowercase;color:var(--ems);text-decoration:none;border-bottom:3px solid currentColor;padding-bottom:4px;overflow-wrap:anywhere}
+.mail:hover{border-bottom-width:6px}
+
+footer{border-top:1px solid var(--line);padding:26px 0 40px;font:400 .75rem/1.5 var(--mono);color:var(--muted)}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+/* responsive */
+@media (max-width:980px){
+  .hero .wrap,.case,.sec-head{grid-template-columns:1fr}
+  .tag-hang{margin-top:8px;padding-top:56px}
+  .tag-hang::before{top:0;height:90px}
+  .games{grid-template-columns:1fr 1fr}
+  .steps{grid-template-columns:1fr 1fr}
+  .stack .front{right:-8px}
+}
+@media (max-width:720px){
+  :root{--gutter:16px}
+  section{padding:72px 0}
+  .hero{padding:44px 0 72px}
+  .top nav a:not(.btn){display:none}
+  .games,.services,.steps{grid-template-columns:1fr}
+  .subhead{flex-direction:column;margin-top:84px}
+  .callout{grid-template-columns:1fr;gap:10px}
+  .callout h3{white-space:normal}
+  .row{grid-template-columns:118px 1fr 46px}
+  .chart div{grid-template-columns:92px 1fr}
+  .stack{padding-bottom:22%}
+  .stack .front{right:0;width:62%}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .tag{animation:none}
+  .btn{transition:none}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#work">Skip to work</a>
+
+<header class="top">
+  <div class="wrap">
+    <a class="mark" href="#top" aria-label="Jose Polanco, home"><i aria-hidden="true"><b></b></i>Jose Polanco</a>
+    <nav aria-label="Main">
+      <a href="#work">Work</a>
+      <a href="#services">Services</a>
+      <a href="#process">How it works</a>
+      <a class="btn primary" href="mailto:emsjpolanco@gmail.com">Email me</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <div class="hero">
+    <div class="wrap">
+      <div>
+        <p class="eyebrow">Freelance · Remote · Queens, NY</p>
+        <h1>I'm an EMT<br>who builds<br>software.</h1>
+        <p class="lede">Websites, web apps and AI automations for small businesses and field teams. I've written patient care reports on NYC construction sites — <em>now I build the tools I wish we had.</em></p>
+        <div class="cta">
+          <a class="btn primary" href="mailto:emsjpolanco@gmail.com">Email me</a>
+          <a class="btn" href="#work">See the work</a>
+        </div>
+      </div>
+
+      <div class="tag-hang">
+        <figure class="tag" aria-label="Triage tag for Jose Polanco">
+          <span class="hole" aria-hidden="true"></span>
+          <div class="tag-body">
+            <div class="tag-head"><span>Triage tag</span><span>Freelance</span></div>
+            <p class="tag-name">Jose Polanco</p>
+            <dl>
+              <div><dt>Cert</dt><dd>NYS EMT</dd></div>
+              <div><dt>Field</dt><dd>Construction-site medic, NYC</dd></div>
+              <div><dt>Builds</dt><dd>Web apps, websites, automations, games</dd></div>
+              <div><dt>Status</dt><dd>Taking new projects</dd></div>
+            </dl>
+          </div>
+          <div class="tear" aria-label="Project urgency I take on">
+            <div class="strip r">Urgent <small>broken today</small></div>
+            <div class="strip y">Planned <small>this month</small></div>
+            <div class="strip g">Someday <small>when it fits</small></div>
+          </div>
+        </figure>
+        <p class="tag-note">Tear at the line that fits your project.</p>
+      </div>
+    </div>
+  </div>
+
+  <section id="work">
+    <div class="wrap">
+      <div class="sec-head">
+        <div><p class="eyebrow">Work</p><h2>Things I've<br>built</h2></div>
+        <p>A web app for the job I do, three games, and an AI assistant that runs my job search. Each one built end to end: design, code, testing.</p>
+      </div>
+
+      <article class="case">
+        <div class="stack">
+          <div class="shot back"><img src="img/sitemedic-pcr.webp" width="1600" height="1000" alt="SiteMedic patient care report: incident and patient sections with a section list on the left"></div>
+          <div class="shot front"><img src="img/sitemedic-home.webp" width="1600" height="1000" alt="SiteMedic home screen listing active reports with status chips" loading="lazy"></div>
+        </div>
+        <div>
+          <p class="eyebrow">Web app · Healthcare</p>
+          <h3>SiteMedic</h3>
+          <p style="margin-top:14px">I work as a medic at construction-site clinics in New York City. The paperwork lives on paper forms, in email threads and in people's heads. SiteMedic puts the patient care report, the OSHA details and the follow-ups in one place, laid out the way a shift actually runs.</p>
+          <dl class="chart">
+            <div><dt>My role</dt><dd>Design, product, build</dd></div>
+            <div><dt>Built with</dt><dd>Next.js, React, TypeScript, Vitest. Supabase next.</dd></div>
+            <div><dt>Status</dt><dd><span class="status">In progress</span></dd></div>
+          </dl>
+          <ul class="points">
+            <li>13-section report modeled on the New York State PCR and OSHA Form 301</li>
+            <li>Clickable mockup approved before a line of the real app was written</li>
+            <li>Sample data only — no real patient information, ever</li>
+          </ul>
+        </div>
+      </article>
+
+      <div class="subhead">
+        <h3>Games</h3>
+        <p>Built in Godot. Games are the hardest software I know how to test, so every one of these runs automated checks through its real controls.</p>
+      </div>
+      <div class="games">
+        <article class="game">
+          <div class="shot pixel"><img src="img/breakpoint-slime.png" width="1280" height="720" alt="BREAKPOINT: pixel-art hero in a purple alien canyon with an in-game lesson prompt" loading="lazy"></div>
+          <div class="game-body">
+            <p class="eyebrow">2D action platformer</p>
+            <h3>Breakpoint</h3>
+            <p>A superhero crash-lands on an alien world and fights through a cave system to win back her ship's parts — and her date.</p>
+            <dl class="chart">
+              <div><dt>Highlights</dt><dd>Hand-drawn pixel art, 60 fps, rebindable keyboard and controller, plays in a web browser</dd></div>
+              <div><dt>Status</dt><dd><span class="status">In development</span></dd></div>
+            </dl>
+          </div>
+        </article>
+        <article class="game">
+          <div class="shot"><img src="img/exorcise-fight.webp" width="1280" height="720" alt="Exorcise: a candlelit stone room with a possessed host strapped to a table and the demon's resolve bar above" loading="lazy"></div>
+          <div class="game-body">
+            <p class="eyebrow">3D ritual game</p>
+            <h3>Exorcise</h3>
+            <p>Rome, 1347. You're a licensed exorcist. Prayers are cast as button-and-stick combos from your Book, and every appointment asks two questions: is this person possessed, and are they telling the truth?</p>
+            <dl class="chart">
+              <div><dt>Highlights</dt><dd>20 prayers, six clients, 399 automated checks run before every change</dd></div>
+              <div><dt>Status</dt><dd><span class="status">In development</span></dd></div>
+            </dl>
+          </div>
+        </article>
+        <article class="game">
+          <div class="shot"><img src="img/nightfloat-room.webp" width="1280" height="720" alt="Night Float: a hospital room with a patient in bed and a curtain, task list in the corner" loading="lazy"></div>
+          <div class="game-body">
+            <p class="eyebrow">First-person horror</p>
+            <h3>Night Float</h3>
+            <p>Five overnight shifts as a hospital unit clerk. Run the whiteboard, answer the patients, and stay away from room 419.</p>
+            <dl class="chart">
+              <div><dt>Highlights</dt><dd>Playable five-night build for Mac and Windows, every sound generated in code</dd></div>
+              <div><dt>Status</dt><dd><span class="status live">Playable</span></dd></div>
+            </dl>
+          </div>
+        </article>
+      </div>
+
+      <article class="case pipe">
+        <div>
+          <p class="eyebrow">AI automation</p>
+          <h3>Job-search pipeline</h3>
+          <p style="margin-top:14px">An AI assistant that runs my job search every morning. It finds listings, drops anything that fails my hard rules, scores the rest on a fixed 100-point scale, and writes a tailored résumé for the best matches. It never applies or sends anything on its own.</p>
+          <dl class="chart">
+            <div><dt>Built with</dt><dd>Claude, a written rulebook, a plain-text tracker</dd></div>
+            <div><dt>Status</dt><dd><span class="status live">In use</span></dd></div>
+          </dl>
+          <p>The same pattern works for leads, invoices, support emails — anything you sort by hand every day.</p>
+        </div>
+        <div class="score" role="img" aria-label="Sample scorecard: 84 out of 100, marked tailor résumé">
+          <div class="score-head"><span>Sample listing</span><span>Score card</span></div>
+          <p class="score-title">Site safety coordinator</p>
+          <div class="row"><span>Title and duties</span><div class="meter"><span style="width:80%"></span></div><b>24/30</b></div>
+          <div class="row"><span>Requirements</span><div class="meter"><span style="width:80%"></span></div><b>20/25</b></div>
+          <div class="row"><span>Seniority</span><div class="meter"><span style="width:100%"></span></div><b>10/10</b></div>
+          <div class="row"><span>Pay and terms</span><div class="meter"><span style="width:80%"></span></div><b>12/15</b></div>
+          <div class="row"><span>Employer</span><div class="meter"><span style="width:100%"></span></div><b>10/10</b></div>
+          <div class="row"><span>Freshness</span><div class="meter"><span style="width:80%"></span></div><b>8/10</b></div>
+          <div class="total"><strong>84<small>/100</small></strong><span class="verdict">Tailor résumé</span></div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section id="services">
+    <div class="wrap">
+      <div class="sec-head">
+        <div><p class="eyebrow">Services</p><h2>What I can<br>build for you</h2></div>
+        <p>Small, useful software for teams that don't have a developer. You get something working early and see every step after that.</p>
+      </div>
+      <div class="services">
+        <div class="svc">
+          <h3>Websites</h3>
+          <p>A fast, clean site for your business that works on every phone. Contact form, booking links, the basics done right.</p>
+        </div>
+        <div class="svc">
+          <h3>Web apps and internal tools</h3>
+          <p>Forms, trackers, dashboards and reports — for the spreadsheet your team outgrew.</p>
+          <span class="proof">See: SiteMedic</span>
+        </div>
+        <div class="svc">
+          <h3>AI automations</h3>
+          <p>Assistants that search, sort, score and draft, so the repetitive part of your day runs itself. You approve what goes out.</p>
+          <span class="proof">See: Job-search pipeline</span>
+        </div>
+        <div class="svc">
+          <h3>Game prototypes</h3>
+          <p>A playable build of your idea in Godot, so you can find out if it's fun before you fund it.</p>
+          <span class="proof">See: Breakpoint, Exorcise, Night Float</span>
+        </div>
+      </div>
+      <div class="callout">
+        <h3>Healthcare, EMS<br>and safety teams</h3>
+        <p>I already speak your language: PCRs, OSHA 301s, drug tests, DER follow-ups, site inventories. You won't spend the first week teaching me how the job works.</p>
+      </div>
+      <p class="ai-note">I build with AI coding tools, mainly Claude. That's how one person ships what used to take a team — and I test every build in the real app before you see it.</p>
+    </div>
+  </section>
+
+  <section id="process">
+    <div class="wrap">
+      <div class="sec-head">
+        <div><p class="eyebrow">How it works</p><h2>From problem<br>to hand-off</h2></div>
+        <p>The same way SiteMedic was built: screens first, then working software in small steps.</p>
+      </div>
+      <ol class="steps">
+        <li><h3>Talk it through</h3><p>You tell me the problem in your words and what "done" looks like.</p></li>
+        <li><h3>Click the mockup</h3><p>You click through the screens before anything is built, and we fix the layout while it's cheap.</p></li>
+        <li><h3>Build in steps</h3><p>Each step works on its own and you can try it. Nothing disappears into a black box for a month.</p></li>
+        <li><h3>Hand it over</h3><p>You own the code, the hosting and the logins. I'm around for fixes after launch.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="contact" class="contact">
+    <div class="wrap">
+      <p class="eyebrow">Contact</p>
+      <h2>Got a project?</h2>
+      <p>Tell me what's broken or what you need built. I'm in Queens, NY and work with clients anywhere.</p>
+      <a class="mail" href="mailto:emsjpolanco@gmail.com">emsjpolanco@gmail.com</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Jose Polanco</span>
+    <span>Built with Claude Code</span>
+  </div>
+</footer>
+</body>
+</html>
