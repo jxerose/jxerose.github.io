@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Panadería Dos Lunas · Demo</title>
+<meta name="description" content="Demo website for a fictional Queens bakery: live hours, menu and order-ahead pickup. Built by Jose Polanco.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shrikhand&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cobalt:#1F3A93; --cobalt-deep:#132560; --pink:#F4A7B9; --pink-soft:#FCE4EA; --yolk:#F6C343;
+  --paper:#FFFFFF; --ink:#1B1B2A; --muted:#5C5F72; --line:#E6E3EC;
+  --display:'Shrikhand',Georgia,serif; --body:'Work Sans',system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 1.05rem/1.6 var(--body)}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--yolk);outline-offset:3px;border-radius:4px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+.demo{background:var(--ink);color:#fff;font-size:.82rem;text-align:center;padding:8px 16px}
+.demo a{color:var(--yolk)}
+
+header{background:var(--cobalt);color:#fff}
+header .wrap{display:flex;align-items:center;justify-content:space-between;height:72px;gap:16px}
+.logo{font:400 1.6rem/1 var(--display);text-decoration:none;display:flex;align-items:center;gap:10px}
+.moons{display:inline-flex}
+.moons i{width:18px;height:18px;border-radius:50%;background:var(--yolk);box-shadow:inset -6px 0 0 var(--cobalt)}
+.moons i+i{margin-left:-6px;background:var(--pink);box-shadow:inset 6px 0 0 var(--cobalt)}
+header nav{display:flex;gap:22px;font-weight:600;font-size:.95rem}
+header nav a{text-decoration:none}
+header nav a:hover{text-decoration:underline;text-underline-offset:4px}
+
+.hero{background:var(--cobalt);color:#fff;position:relative;overflow:hidden}
+.hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;padding-top:56px;padding-bottom:96px}
+.status{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.12);border-radius:999px;padding:6px 14px;font-weight:600;font-size:.9rem}
+.status::before{content:"";width:9px;height:9px;border-radius:50%;background:#9AA0B5}
+.status.open::before{background:#5BE38B;box-shadow:0 0 0 4px rgba(91,227,139,.25)}
+.hero h1{font:400 clamp(3rem,7vw,5.6rem)/.95 var(--display);margin:22px 0 18px;color:var(--pink)}
+.hero h1 span{color:var(--yolk)}
+.hero p{font-size:1.2rem;max-width:30em;margin:0 0 28px;opacity:.92}
+.btn{display:inline-flex;align-items:center;justify-content:center;height:50px;padding:0 24px;border-radius:999px;border:0;font:700 1rem var(--body);cursor:pointer;text-decoration:none;background:var(--yolk);color:var(--ink)}
+.btn.ghost{background:transparent;color:#fff;box-shadow:inset 0 0 0 2px rgba(255,255,255,.6)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.cta{display:flex;gap:12px;flex-wrap:wrap}
+
+/* the concha — drawn, no photos */
+.concha{width:min(100%,420px);aspect-ratio:1;justify-self:center;position:relative}
+.concha svg{width:100%;height:100%;filter:drop-shadow(0 30px 40px rgba(0,0,0,.35));animation:bob 6s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-8px) rotate(-2deg)}}
+.scallop{position:absolute;left:0;right:0;bottom:-1px;height:36px;background:radial-gradient(circle at 18px 0,transparent 18px,var(--paper) 19px) 0 0/36px 36px repeat-x}
+
+section{padding:88px 0}
+h2{font:400 clamp(2.2rem,4.6vw,3.4rem)/1 var(--display);color:var(--cobalt);margin:0 0 10px}
+.sub{color:var(--muted);margin:0 0 36px;max-width:36em}
+
+/* menu */
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px}
+.tabs button{border:2px solid var(--cobalt);background:#fff;color:var(--cobalt);font:600 .95rem var(--body);height:42px;padding:0 18px;border-radius:999px;cursor:pointer}
+.tabs button[aria-pressed="true"]{background:var(--cobalt);color:#fff}
+.layout{display:grid;grid-template-columns:1fr 360px;gap:32px;align-items:start}
+.items{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.item{border:1px solid var(--line);border-radius:16px;padding:18px;display:grid;grid-template-columns:64px 1fr;gap:16px;align-items:center;background:#fff}
+.item .dot{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;font-size:1.9rem}
+.item h3{margin:0;font-size:1.08rem}
+.item p{margin:2px 0 10px;color:var(--muted);font-size:.9rem;line-height:1.4}
+.item .row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.price{font-weight:700}
+.tag{font-size:.72rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;background:var(--yolk);border-radius:4px;padding:2px 6px;margin-left:6px;vertical-align:2px}
+.add{border:0;background:var(--pink-soft);color:var(--cobalt-deep);font:700 .88rem var(--body);height:36px;padding:0 14px;border-radius:999px;cursor:pointer}
+.add:hover{background:var(--pink)}
+
+/* tray */
+.tray{position:sticky;top:20px;border-radius:20px;background:var(--pink-soft);padding:22px}
+.tray h3{font:400 1.7rem/1 var(--display);color:var(--cobalt);margin:0 0 14px}
+.tray ul{list-style:none;margin:0 0 14px;padding:0}
+.tray li{display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;padding:8px 0;border-bottom:1px dashed #E8B7C4;font-size:.95rem}
+.qty{display:inline-flex;align-items:center;gap:6px}
+.qty button{width:28px;height:28px;border-radius:50%;border:0;background:#fff;color:var(--cobalt);font-weight:700;cursor:pointer}
+.empty{color:var(--muted);font-size:.95rem;margin:0 0 14px}
+.total{display:flex;justify-content:space-between;font-weight:700;font-size:1.1rem;margin:6px 0 16px}
+.tray label{display:block;font-size:.85rem;font-weight:600;margin-bottom:10px}
+.tray input,.tray select{display:block;width:100%;height:44px;margin-top:4px;border:1px solid #E8B7C4;border-radius:10px;padding:0 12px;font:inherit;background:#fff}
+.tray .btn{width:100%;margin-top:6px;background:var(--cobalt);color:#fff}
+.err{color:#B3261E;font-size:.85rem;margin:6px 0 0}
+.done{text-align:center}
+.done .big{font:400 2.4rem/1 var(--display);color:var(--cobalt);margin:8px 0}
+.note{font-size:.8rem;color:var(--muted);margin-top:12px}
+
+/* visit */
+.visit{background:var(--yolk)}
+.visit .wrap{display:grid;grid-template-columns:1fr 1fr;gap:48px}
+.visit h2{color:var(--ink)}
+.hours{width:100%;border-collapse:collapse;font-size:1rem}
+.hours td{padding:10px 0;border-bottom:1px solid rgba(0,0,0,.15)}
+.hours td:last-child{text-align:right;font-weight:600}
+.hours tr.today td{font-weight:700}
+.hours tr.today td:first-child::after{content:" · today";font-weight:500;color:var(--cobalt-deep)}
+.season{background:#fff;border-radius:20px;padding:26px}
+.season h3{font:400 1.8rem/1.1 var(--display);color:var(--cobalt);margin:0 0 8px}
+
+footer{background:var(--cobalt-deep);color:#C9D0EA;padding:32px 0;font-size:.9rem}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+@media (max-width:900px){
+  .hero .wrap,.layout,.visit .wrap{grid-template-columns:1fr}
+  .concha{width:260px;order:-1}
+  .tray{position:static}
+}
+@media (max-width:600px){
+  .wrap{padding:0 16px}
+  header nav a:not(:last-child){display:none}
+  .items{grid-template-columns:1fr}
+  section{padding:64px 0}
+}
+@media (prefers-reduced-motion:reduce){.concha svg{animation:none}}
+</style>
+</head>
+<body>
+<div class="demo">Demo site for a fictional bakery, built by Jose Polanco. Orders aren't sent anywhere. <a href="../../#demos">Back to portfolio</a></div>
+<header>
+  <div class="wrap">
+    <a class="logo" href="#"><span class="moons" aria-hidden="true"><i></i><i></i></span>Dos Lunas</a>
+    <nav aria-label="Main"><a href="#menu">Menu</a><a href="#visit">Hours</a><a href="#menu">Order ahead</a></nav>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <div>
+      <span class="status" id="status">Checking hours…</span>
+      <h1>Pan dulce,<br><span>baked at 5am.</span></h1>
+      <p>A family bakery in Corona, Queens. Order ahead and your tray is boxed and waiting at the counter.</p>
+      <div class="cta"><a class="btn" href="#menu">Order for pickup</a><a class="btn ghost" href="#visit">See hours</a></div>
+    </div>
+    <div class="concha" aria-hidden="true">
+      <svg viewBox="0 0 200 200"><defs><clipPath id="shell"><path d="M18 120c0-46 37-78 82-78s82 32 82 78c-14 12-48 20-82 20s-68-8-82-20z"/></clipPath></defs>
+        <ellipse cx="100" cy="128" rx="84" ry="46" fill="#E9A15A"/>
+        <path d="M18 120c0-46 37-78 82-78s82 32 82 78c-14 12-48 20-82 20s-68-8-82-20z" fill="#F4A7B9"/>
+        <g fill="none" stroke="#D97E98" stroke-width="5" stroke-linecap="round" clip-path="url(#shell)">
+          <path d="M100 48v86M62 58c10 22 14 48 12 74M138 58c-10 22-14 48-12 74M36 82c18 10 30 30 34 52M164 82c-18 10-30 30-34 52"/>
+          <path d="M30 108c40-14 100-14 140 0M48 78c34-10 70-10 104 0"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+  <div class="scallop"></div>
+</div>
+
+<section id="menu">
+  <div class="wrap">
+    <h2>Today's menu</h2>
+    <p class="sub">Add what you want to your tray, pick a time, and we'll have it boxed. Pay at the counter.</p>
+    <div class="tabs" role="group" aria-label="Filter menu">
+      <button aria-pressed="true" data-cat="all">Everything</button>
+      <button aria-pressed="false" data-cat="pan">Pan dulce</button>
+      <button aria-pressed="false" data-cat="cake">Cakes</button>
+      <button aria-pressed="false" data-cat="drink">Drinks</button>
+    </div>
+    <div class="layout">
+      <div class="items" id="items"></div>
+      <aside class="tray" id="tray" aria-live="polite"></aside>
+    </div>
+  </div>
+</section>
+
+<section id="visit" class="visit">
+  <div class="wrap">
+    <div>
+      <h2>Come by</h2>
+      <p class="sub" style="color:#3b3410">Roosevelt Ave, Corona, Queens. Two blocks from the 7 train.</p>
+      <table class="hours" id="hours"></table>
+    </div>
+    <div class="season">
+      <h3>Pan de muerto is back</h3>
+      <p>Baked every morning through November 2. Order a whole one ahead — they're usually gone by noon.</p>
+      <a class="btn" style="background:var(--cobalt);color:#fff" href="#menu" data-jump="pan">Add one to your tray</a>
+    </div>
+  </div>
+</section>
+
+<footer><div class="wrap"><span>Panadería Dos Lunas is a fictional business.</span><span>Site by <a href="../../">Jose Polanco</a></span></div></footer>
+
+<script>
+const MENU=[
+  {id:'concha',cat:'pan',name:'Concha',desc:'Soft sweet roll, vanilla or chocolate shell',price:1.75,e:'🐚',bg:'#FCE4EA'},
+  {id:'cuerno',cat:'pan',name:'Cuerno',desc:'Buttery horn, sugar-dusted',price:2.00,e:'🥐',bg:'#FFF1CC'},
+  {id:'oreja',cat:'pan',name:'Oreja',desc:'Flaky palmier, caramelized edges',price:1.75,e:'🍪',bg:'#FFF1CC'},
+  {id:'muerto',cat:'pan',name:'Pan de muerto',desc:'Orange-blossom loaf, whole',price:6.00,e:'🍞',bg:'#FCE4EA',season:true},
+  {id:'tres',cat:'cake',name:'Tres leches',desc:'Slice, soaked overnight',price:4.50,e:'🍰',bg:'#E4E9FA'},
+  {id:'flan',cat:'cake',name:'Flan',desc:'Single cup, burnt-sugar top',price:3.75,e:'🍮',bg:'#FFF1CC'},
+  {id:'olla',cat:'drink',name:'Café de olla',desc:'Cinnamon and piloncillo coffee',price:2.75,e:'☕',bg:'#E4E9FA'},
+  {id:'champ',cat:'drink',name:'Champurrado',desc:'Thick chocolate atole',price:3.25,e:'🍫',bg:'#FCE4EA'}
+];
+// 0 = Sunday. Hours in 24h, New York time.
+const HOURS=[[7,15],[6,20],[6,20],[6,20],[6,20],[6,21],[6,21]];
+const DAYS=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const $=s=>document.querySelector(s);
+const money=n=>'$'+n.toFixed(2);
+const fmtH=h=>{const ap=h<12||h===24?'am':'pm';const x=h%12||12;return x+ap};
+let cat='all',tray={},placed=null;
+
+function nyNow(){
+  const p=new Intl.DateTimeFormat('en-US',{timeZone:'America/New_York',weekday:'short',hour:'numeric',minute:'numeric',hour12:false}).formatToParts(new Date());
+  const g=t=>p.find(x=>x.type===t).value;
+  return{day:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].indexOf(g('weekday')),h:+g('hour')%24,m:+g('minute')};
+}
+function renderStatus(){
+  const n=nyNow(),[o,c]=HOURS[n.day],t=n.h+n.m/60,s=$('#status');
+  if(t>=o&&t<c){s.className='status open';s.textContent='Open now · until '+fmtH(c)}
+  else{const nd=t<o?n.day:(n.day+1)%7;s.className='status';s.textContent='Closed · opens '+(nd===n.day?'today':DAYS[nd])+' at '+fmtH(HOURS[nd][0])}
+  $('#hours').innerHTML=HOURS.map((h,i)=>{const d=(i+1)%7;return`<tr class="${d===n.day?'today':''}"><td>${DAYS[d]}</td><td>${fmtH(HOURS[d][0])} – ${fmtH(HOURS[d][1])}</td></tr>`}).join('');
+}
+function renderItems(){
+  $('#items').innerHTML=MENU.filter(m=>cat==='all'||m.cat===cat).map(m=>`
+    <div class="item"><div class="dot" style="background:${m.bg}" aria-hidden="true">${m.e}</div>
+    <div><h3>${m.name}${m.season?'<span class="tag">Seasonal</span>':''}</h3><p>${m.desc}</p>
+    <div class="row"><span class="price">${money(m.price)}</span><button class="add" data-add="${m.id}">Add to tray</button></div></div></div>`).join('');
+}
+function slots(){
+  const n=nyNow(),[o,c]=HOURS[n.day],out=[];
+  let start=Math.max(o,n.h+(n.m>30?2:1));
+  for(let h=start;h<c;h++){out.push(['Today',h]);}
+  if(out.length<4){const d=(n.day+1)%7;for(let h=HOURS[d][0]+1;h<HOURS[d][1]&&out.length<8;h++)out.push(['Tomorrow',h]);}
+  return out.map(([d,h])=>`${d}, ${fmtH(h)}`);
+}
+function renderTray(){
+  const el=$('#tray');
+  if(placed){el.innerHTML=`<div class="done"><h3>Order placed</h3><p class="big">#${placed.no}</p><p>${placed.name}, your tray will be boxed for <b>${placed.time}</b>. Pay ${money(placed.total)} at the counter.</p><button class="btn" id="again">Start a new order</button><p class="note">Demo only — this order wasn't sent anywhere.</p></div>`;return}
+  const rows=Object.entries(tray).filter(([,q])=>q>0);
+  const total=rows.reduce((s,[id,q])=>s+MENU.find(m=>m.id===id).price*q,0);
+  el.innerHTML=`<h3>Your tray</h3>`+(rows.length?`<ul>${rows.map(([id,q])=>{const m=MENU.find(x=>x.id===id);return`<li><span>${m.name}</span><span class="qty"><button data-dec="${id}" aria-label="One less ${m.name}">−</button>${q}<button data-add="${id}" aria-label="One more ${m.name}">+</button></span><span>${money(m.price*q)}</span></li>`}).join('')}</ul><div class="total"><span>Total</span><span>${money(total)}</span></div>`:`<p class="empty">Your tray is empty. Add something from the menu.</p>`)+
+  `<form id="orderF" novalidate><label>Pickup time<select id="o-time">${slots().map(s=>`<option>${s}</option>`).join('')}</select></label>
+  <label>Name for the order<input id="o-name" autocomplete="given-name"></label>
+  <button class="btn" type="submit" ${rows.length?'':'disabled'}>Place pickup order</button><p class="err" id="o-err" hidden></p></form>`;
+}
+document.addEventListener('click',e=>{
+  const t=e.target.closest('button,a');if(!t)return;
+  if(t.dataset.add){tray[t.dataset.add]=(tray[t.dataset.add]||0)+1;renderTray()}
+  else if(t.dataset.dec){tray[t.dataset.dec]--;renderTray()}
+  else if(t.dataset.cat){cat=t.dataset.cat;document.querySelectorAll('.tabs button').forEach(b=>b.setAttribute('aria-pressed',b===t));renderItems()}
+  else if(t.dataset.jump){tray.muerto=(tray.muerto||0)+1;placed=null;renderTray()}
+  else if(t.id==='again'){placed=null;tray={};renderTray()}
+});
+document.addEventListener('submit',e=>{
+  e.preventDefault();const name=$('#o-name').value.trim();
+  if(!name){const er=$('#o-err');er.textContent='Add a name so we know whose box it is.';er.hidden=false;$('#o-name').focus();return}
+  const total=Object.entries(tray).reduce((s,[id,q])=>s+MENU.find(m=>m.id===id).price*q,0);
+  placed={no:Math.floor(100+Math.random()*900),name,time:$('#o-time').value,total};renderTray();
+});
+renderStatus();renderItems();renderTray();setInterval(renderStatus,60000);
+</script>
+</body>
+</html>

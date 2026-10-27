@@ -136,6 +136,18 @@ section{padding:96px 0;border-top:1px solid var(--line)}
 .game .chart{margin:auto 0 0}
 .game .chart div{grid-template-columns:86px 1fr;font-size:.92rem}
 
+.game a.shot{display:block}
+.game .open{margin-top:18px;align-self:flex-start;height:42px;font-size:.95rem}
+.game .chart+.open{margin-top:18px}
+.also{margin:24px 0 0;padding:16px 20px;border:1px dashed var(--line);border-radius:8px;color:var(--muted);max-width:none}
+.also b{color:var(--ink);font-weight:600}
+.term{background:#0F1318;color:#D6DEE8;border-radius:10px;overflow:hidden;box-shadow:var(--shadow);border:1px solid #232A33}
+.term-bar{display:flex;align-items:center;gap:6px;padding:10px 14px;background:#181E26;font:500 .7rem var(--mono);color:#7E8A98}
+.term-bar i{width:10px;height:10px;border-radius:50%;background:#2E3743}
+.term-bar span{margin-left:auto}
+.term pre{margin:0;padding:18px 20px 22px;font:400 .86rem/1.75 var(--mono);white-space:pre-wrap;overflow-wrap:anywhere}
+.term .p{color:#F0BF1A}.term .d{color:#6F7C8B}.term .ok{color:#4CC27A}
+
 /* pipeline */
 .pipe{margin-top:112px}
 .score{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:24px;box-shadow:var(--shadow)}
@@ -216,6 +228,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     <a class="mark" href="#top" aria-label="Jose Polanco, home"><i aria-hidden="true"><b></b></i>Jose Polanco</a>
     <nav aria-label="Main">
       <a href="#work">Work</a>
+      <a href="#demos">Demos</a>
       <a href="#services">Services</a>
       <a href="#process">How it works</a>
       <a class="btn primary" href="mailto:emsjpolanco@gmail.com">Email me</a>
@@ -264,7 +277,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     <div class="wrap">
       <div class="sec-head">
         <div><p class="eyebrow">Work</p><h2>Things I've<br>built</h2></div>
-        <p>A web app for the job I do, three games, and an AI assistant that runs my job search. Each one built end to end: design, code, testing.</p>
+        <p>Web apps, business sites, dashboards, games, AI automation and low-level macOS tools. Each one built end to end: design, code, testing. Several you can open and use right now.</p>
       </div>
 
       <article class="case">
@@ -288,6 +301,49 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
           </ul>
         </div>
       </article>
+
+      <div class="subhead" id="demos">
+        <h3>Live demos</h3>
+        <p>Click in and use them. Each one is a single fast page: no install, works on a phone.</p>
+      </div>
+      <div class="games">
+        <article class="game">
+          <a class="shot" href="demos/bakery/"><img src="img/bakery.webp" width="1600" height="1000" alt="Dos Lunas bakery demo: cobalt hero with a pink concha and an open-now badge" loading="lazy"></a>
+          <div class="game-body">
+            <p class="eyebrow">Small-business website</p>
+            <h3>Dos Lunas</h3>
+            <p>A site for a neighborhood bakery. It shows whether the shop is open right now in New York time, filters the menu, and takes pickup orders with a time slot.</p>
+            <dl class="chart">
+              <div><dt>Shows</dt><dd>Live hours, order-ahead tray, mobile-first layout</dd></div>
+            </dl>
+            <a class="btn open" href="demos/bakery/">Open the site</a>
+          </div>
+        </article>
+        <article class="game">
+          <a class="shot" href="demos/safety/"><img src="img/safety.webp" width="1600" height="1000" alt="Site Safety Board demo: KPI tiles, stacked weekly incident chart and incidents by trade" loading="lazy"></a>
+          <div class="game-body">
+            <p class="eyebrow">Data dashboard</p>
+            <h3>Site Safety Board</h3>
+            <p>Incidents across four job sites for a contractor's safety manager. Filter by site and date range, hover any week, sort the open follow-ups.</p>
+            <dl class="chart">
+              <div><dt>Shows</dt><dd>Hand-built SVG charts, filters, sortable table, dark mode</dd></div>
+            </dl>
+            <a class="btn open" href="demos/safety/">Open the dashboard</a>
+          </div>
+        </article>
+        <article class="game">
+          <a class="shot" href="play/shiftrunner/"><img src="img/shiftrunner.webp" width="1280" height="720" alt="Shiftrunner: a runner sprinting down a torch-lit temple corridor at dusk" loading="lazy"></a>
+          <div class="game-body">
+            <p class="eyebrow">Browser game</p>
+            <h3>Shiftrunner</h3>
+            <p>An endless runner seen from behind that turns into a side-scroller when you take a corner. Same sprint, same score, two worlds.</p>
+            <dl class="chart">
+              <div><dt>Shows</dt><dd>One file, no libraries, keyboard and touch controls</dd></div>
+            </dl>
+            <a class="btn open" href="play/shiftrunner/">Play it</a>
+          </div>
+        </article>
+      </div>
 
       <div class="subhead">
         <h3>Games</h3>
@@ -331,6 +387,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
           </div>
         </article>
       </div>
+      <p class="also"><b>Also on Roblox:</b> CARDFRONT, a trading-card game with booster packs, deck building, player trading, duels and wild-monster captures. The map, the cards and the UI are all generated from code.</p>
 
       <article class="case pipe">
         <div>
@@ -355,6 +412,30 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
           <div class="total"><strong>84<small>/100</small></strong><span class="verdict">Tailor résumé</span></div>
         </div>
       </article>
+
+      <article class="case pipe">
+        <div>
+          <p class="eyebrow">Systems · macOS</p>
+          <h3>Controller drivers</h3>
+          <p style="margin-top:14px">Two game controllers that macOS refused to see. I traced each problem down to the USB and HID layer and wrote small Swift tools that fix them — no kernel extensions, no special permissions.</p>
+          <dl class="chart">
+            <div><dt>switch2wake</dt><dd>A Switch 2 Pro Controller sends nothing until it gets a vendor handshake on a USB interface macOS ignores. This claims that interface and sends it.</dd></div>
+            <div><dt>padbridge</dt><dd>Reads a pad Apple's GameController framework won't list, straight from IOKit HID, and streams it into the game over UDP.</dd></div>
+            <div><dt>Built with</dt><dd>Swift, IOKit, IOUSBLib</dd></div>
+          </dl>
+        </div>
+        <div class="term" role="img" aria-label="Terminal: switch2wake finds the controller, claims its vendor interface, sends the handshake, and the controller starts streaming">
+          <div class="term-bar"><i></i><i></i><i></i><span>zsh</span></div>
+<pre><span class="p">$</span> switch2wake
+<span class="d">scanning USB…</span>
+found  Switch 2 Pro Controller (wired)
+  if0  HID gamepad       <span class="d">bound · silent</span>
+  if1  vendor class      <span class="d">no driver</span>
+claim  interface 1       <span class="ok">ok</span>
+send   wake handshake    <span class="ok">ok</span>
+<span class="ok">✓</span> streaming: 21 buttons, 4 axes</pre>
+        </div>
+      </article>
     </div>
   </section>
 
@@ -368,11 +449,12 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
         <div class="svc">
           <h3>Websites</h3>
           <p>A fast, clean site for your business that works on every phone. Contact form, booking links, the basics done right.</p>
+          <span class="proof">See: Dos Lunas</span>
         </div>
         <div class="svc">
           <h3>Web apps and internal tools</h3>
           <p>Forms, trackers, dashboards and reports — for the spreadsheet your team outgrew.</p>
-          <span class="proof">See: SiteMedic</span>
+          <span class="proof">See: SiteMedic, Site Safety Board</span>
         </div>
         <div class="svc">
           <h3>AI automations</h3>
@@ -382,7 +464,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
         <div class="svc">
           <h3>Game prototypes</h3>
           <p>A playable build of your idea in Godot, so you can find out if it's fun before you fund it.</p>
-          <span class="proof">See: Breakpoint, Exorcise, Night Float</span>
+          <span class="proof">See: Shiftrunner, Breakpoint, Exorcise</span>
         </div>
       </div>
       <div class="callout">
