@@ -121,6 +121,10 @@ section{padding:96px 0;border-top:1px solid var(--line)}
 .stack .back{width:100%}
 .stack .front{position:absolute;right:-18px;bottom:0;width:58%}
 .case p{max-width:34em}
+.case.tool{margin-top:72px}
+.case.tool+.case.tool{margin-top:64px}
+.case.tool a.shot{display:block}
+.case .open-tool{margin-top:22px;height:44px}
 
 /* games */
 .subhead{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin:112px 0 28px;padding-top:28px;border-top:2px solid var(--ink)}
@@ -302,6 +306,44 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
             <li>Clickable mockup approved before a line of the real app was written</li>
             <li>Sample data only — no real patient information, ever</li>
           </ul>
+        </div>
+      </article>
+
+      <article class="case tool">
+        <a class="shot" href="tools/deepcut/"><img src="img/deepcut.webp" width="1600" height="1000" alt="Deep Cut: a map of similar artists layered by how well known they are, tracing a path from Khruangbin down to an artist with about a thousand fans" loading="lazy"></a>
+        <div>
+          <p class="eyebrow">Web app · Music discovery</p>
+          <h3>Deep Cut</h3>
+          <p style="margin-top:14px">Start with an artist you love. Everyone similar hangs below them, layered by how many people know them, from mainstream down to bedrock. Click one to hear a preview and read who they are, then keep digging. Three clicks from Khruangbin gets you to a band with about a thousand fans.</p>
+          <dl class="chart">
+            <div><dt>Try</dt><dd>Pick a starting artist, then keep clicking the lower ones</dd></div>
+            <div><dt>Status</dt><dd><span class="status live">Live, free to use</span></dd></div>
+          </dl>
+          <ul class="points">
+            <li>Live data from Deezer and Wikipedia, with 30-second previews that play as you click</li>
+            <li>Shows how much less known each find is than where you started</li>
+            <li>Save finds to a crate with links to Spotify, Apple Music and YouTube; share your trail as a link</li>
+          </ul>
+          <a class="btn primary open-tool" href="tools/deepcut/">Open Deep Cut</a>
+        </div>
+      </article>
+
+      <article class="case tool">
+        <a class="shot" href="tools/covered/"><img src="img/covered.webp" width="1600" height="1000" alt="Covered shift scheduler: a week of bakery shifts by person and day, with a staffing chart over each day and a coverage tally" loading="lazy"></a>
+        <div>
+          <p class="eyebrow">Web app · Scheduling</p>
+          <h3>Covered</h3>
+          <p style="margin-top:14px">A weekly shift scheduler for small teams like cafés, clinics and shops. Tell it who can work which roles and how many people each shift needs, then press Auto-fill. It builds the week, keeps everyone under their hours, and flags anyone who's double-booked or closing then opening on under 10 hours' rest.</p>
+          <dl class="chart">
+            <div><dt>Try</dt><dd>Auto-fill, drag a shift to someone else, then Share</dd></div>
+            <div><dt>Status</dt><dd><span class="status live">Live, free to use</span></dd></div>
+          </dl>
+          <ul class="points">
+            <li>Staffing chart over each day shows when you're short, hour by hour</li>
+            <li>Running labor cost with overtime, undo for every change</li>
+            <li>View-only share link for staff, calendar files, print and spreadsheet export</li>
+          </ul>
+          <a class="btn primary open-tool" href="tools/covered/">Open Covered</a>
         </div>
       </article>
 
