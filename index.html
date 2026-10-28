@@ -148,6 +148,9 @@ section{padding:96px 0;border-top:1px solid var(--line)}
 .term pre{margin:0;padding:18px 20px 22px;font:400 .86rem/1.75 var(--mono);white-space:pre-wrap;overflow-wrap:anywhere}
 .term .p{color:#F0BF1A}.term .d{color:#6F7C8B}.term .ok{color:#4CC27A}
 
+.games.two{grid-template-columns:repeat(2,1fr)}
+@media (max-width:720px){.games.two{grid-template-columns:1fr}}
+
 /* pipeline */
 .pipe{margin-top:112px}
 .score{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:24px;box-shadow:var(--shadow)}
@@ -332,15 +335,15 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
           </div>
         </article>
         <article class="game">
-          <a class="shot" href="play/shiftrunner/"><img src="img/shiftrunner.webp" width="1280" height="720" alt="Shiftrunner: a runner sprinting down a torch-lit temple corridor at dusk" loading="lazy"></a>
+          <a class="shot pixel" href="play/breakpoint/"><img src="img/breakpoint-play.webp" width="1280" height="720" alt="Breakpoint: the pixel-art hero beside her crashed ship under a pink alien sky" loading="lazy"></a>
           <div class="game-body">
-            <p class="eyebrow">Browser game</p>
-            <h3>Shiftrunner</h3>
-            <p>An endless runner seen from behind that turns into a side-scroller when you take a corner. Same sprint, same score, two worlds.</p>
+            <p class="eyebrow">Browser game · Godot</p>
+            <h3>Breakpoint</h3>
+            <p>A superhero crash-lands on an alien world and fights through a cave system to win back her ship's parts — and her date. In development; this is the current build.</p>
             <dl class="chart">
-              <div><dt>Shows</dt><dd>One file, no libraries, keyboard and touch controls</dd></div>
+              <div><dt>Shows</dt><dd>Hand-drawn pixel art, 60 fps, rebindable keyboard and controller</dd></div>
             </dl>
-            <a class="btn open" href="play/shiftrunner/">Play it</a>
+            <a class="btn open" href="play/breakpoint/">Play it</a>
           </div>
         </article>
       </div>
@@ -349,19 +352,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
         <h3>Games</h3>
         <p>Built in Godot. Games are the hardest software I know how to test, so every one of these runs automated checks through its real controls.</p>
       </div>
-      <div class="games">
-        <article class="game">
-          <div class="shot pixel"><img src="img/breakpoint-slime.png" width="1280" height="720" alt="BREAKPOINT: pixel-art hero in a purple alien canyon with an in-game lesson prompt" loading="lazy"></div>
-          <div class="game-body">
-            <p class="eyebrow">2D action platformer</p>
-            <h3>Breakpoint</h3>
-            <p>A superhero crash-lands on an alien world and fights through a cave system to win back her ship's parts — and her date.</p>
-            <dl class="chart">
-              <div><dt>Highlights</dt><dd>Hand-drawn pixel art, 60 fps, rebindable keyboard and controller, plays in a web browser</dd></div>
-              <div><dt>Status</dt><dd><span class="status">In development</span></dd></div>
-            </dl>
-          </div>
-        </article>
+      <div class="games two">
         <article class="game">
           <div class="shot"><img src="img/exorcise-fight.webp" width="1280" height="720" alt="Exorcise: a candlelit stone room with a possessed host strapped to a table and the demon's resolve bar above" loading="lazy"></div>
           <div class="game-body">
@@ -464,7 +455,7 @@ send   wake handshake    <span class="ok">ok</span>
         <div class="svc">
           <h3>Game prototypes</h3>
           <p>A playable build of your idea in Godot, so you can find out if it's fun before you fund it.</p>
-          <span class="proof">See: Shiftrunner, Breakpoint, Exorcise</span>
+          <span class="proof">See: Breakpoint, Exorcise, Night Float</span>
         </div>
       </div>
       <div class="callout">
