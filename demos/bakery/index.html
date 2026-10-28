@@ -100,13 +100,16 @@ h2{font:400 clamp(2.2rem,4.6vw,3.4rem)/1 var(--display);color:var(--cobalt);marg
 .season{background:#fff;border-radius:20px;padding:26px}
 .season h3{font:400 1.8rem/1.1 var(--display);color:var(--cobalt);margin:0 0 8px}
 
+.jump{display:none;position:fixed;left:16px;right:16px;bottom:16px;z-index:5;height:54px;border:0;border-radius:999px;background:var(--cobalt);color:#fff;font:700 1rem var(--body);box-shadow:0 10px 30px -8px rgba(19,37,96,.6);cursor:pointer}
+
 footer{background:var(--cobalt-deep);color:#C9D0EA;padding:32px 0;font-size:.9rem}
 footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 
 @media (max-width:900px){
   .hero .wrap,.layout,.visit .wrap{grid-template-columns:1fr}
   .concha{width:260px;order:-1}
-  .tray{position:static}
+  .tray{position:static;scroll-margin-top:16px}
+  .jump.on{display:block}
 }
 @media (max-width:600px){
   .wrap{padding:0 16px}
@@ -180,6 +183,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   </div>
 </section>
 
+<button class="jump" id="jump" type="button"></button>
 <footer><div class="wrap"><span>Panadería Dos Lunas is a fictional business.</span><span>Site by <a href="../../">Jose Polanco</a></span></div></footer>
 
 <script>
@@ -225,7 +229,16 @@ function slots(){
   if(out.length<4){const d=(n.day+1)%7;for(let h=HOURS[d][0]+1;h<HOURS[d][1]&&out.length<8;h++)out.push(['Tomorrow',h]);}
   return out.map(([d,h])=>`${d}, ${fmtH(h)}`);
 }
+// On a phone the tray sits below the whole menu, so a floating button
+// shows what's in it and jumps there. Hidden once the tray itself is on screen.
+let trayVisible=false;
+function renderJump(){
+  const n=Object.values(tray).reduce((s,q)=>s+q,0),total=Object.entries(tray).reduce((s,[id,q])=>s+MENU.find(m=>m.id===id).price*q,0);
+  const b=$('#jump');b.textContent=`View tray · ${n} item${n===1?'':'s'} · ${money(total)}`;
+  b.classList.toggle('on',n>0&&!placed&&!trayVisible);
+}
 function renderTray(){
+  renderJump();
   const el=$('#tray');
   if(placed){el.innerHTML=`<div class="done"><h3>Order placed</h3><p class="big">#${placed.no}</p><p>${placed.name}, your tray will be boxed for <b>${placed.time}</b>. Pay ${money(placed.total)} at the counter.</p><button class="btn" id="again">Start a new order</button><p class="note">Demo only — this order wasn't sent anywhere.</p></div>`;return}
   const rows=Object.entries(tray).filter(([,q])=>q>0);
@@ -242,6 +255,7 @@ document.addEventListener('click',e=>{
   else if(t.dataset.cat){cat=t.dataset.cat;document.querySelectorAll('.tabs button').forEach(b=>b.setAttribute('aria-pressed',b===t));renderItems()}
   else if(t.dataset.jump){tray.muerto=(tray.muerto||0)+1;placed=null;renderTray()}
   else if(t.id==='again'){placed=null;tray={};renderTray()}
+  else if(t.id==='jump'){$('#tray').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'})}
 });
 document.addEventListener('submit',e=>{
   e.preventDefault();const name=$('#o-name').value.trim();
@@ -249,6 +263,7 @@ document.addEventListener('submit',e=>{
   const total=Object.entries(tray).reduce((s,[id,q])=>s+MENU.find(m=>m.id===id).price*q,0);
   placed={no:Math.floor(100+Math.random()*900),name,time:$('#o-time').value,total};renderTray();
 });
+new IntersectionObserver(([e])=>{trayVisible=e.isIntersecting;renderJump()}).observe($('#tray'));
 renderStatus();renderItems();renderTray();setInterval(renderStatus,60000);
 </script>
 </body>
