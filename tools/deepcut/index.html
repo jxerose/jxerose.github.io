@@ -141,6 +141,10 @@ a{color:inherit}
 .node.dim{opacity:.2}
 .node.dim:hover,.node.dim:focus-visible{opacity:1}
 .lines .dim{opacity:.15}
+.lines.fade{animation:fadein .6s ease-out}
+@keyframes fadein{from{opacity:0}}
+.band.bq{background:repeating-linear-gradient(135deg,var(--paper) 0 8px,var(--s0) 8px 16px)}
+.bl .vd{margin:0 0 4px}
 .lm{display:inline-flex;align-items:flex-end;gap:1.5px;height:10px;margin-left:5px;vertical-align:-1px}
 .lm b{width:2.5px;border-radius:1px;background:currentColor;opacity:.25}
 .lm b:nth-child(1){height:4px}.lm b:nth-child(2){height:7px}.lm b:nth-child(3){height:10px}
@@ -456,7 +460,7 @@ function settle(p){
   [...(p.mb?.tags||[])].sort((x,y)=>(y.count||1)-(x.count||1)).forEach(t=>add(t.name,t.count||1));
   if(tags.length<2)(p.genres||[]).forEach(g=>add(g,1));
   p.tags=tags.slice(0,8).map(t=>t.n);
-  const wt=tags.slice(0,15).map((t,i)=>({n:t.n,w:Math.max(1,t.c)/(1+i*.3)}));
+  const wt=p.wt=tags.slice(0,15).map((t,i)=>({n:t.n,w:Math.max(1,t.c)/(1+i*.3)}));
   p.vibe=score(VIBE_RULES,wt);p.sound=score(SOUND_RULES,wt);
   if(p.gains?.length){p.gain=p.gains.reduce((s,g)=>s+g,0)/p.gains.length;p.loud=p.gain>=-8.5?'loud':p.gain<=-11?'soft':'medium'}
   const formed=p.mb?.type==='Group'?+(p.mb['life-span']?.begin||'').slice(0,4)||null:null;
@@ -487,7 +491,7 @@ function enrich(k){
       .then(g=>{p.gains=g.filter(x=>typeof x==='number'&&x!==0)},()=>{p.gains=[]}).finally(()=>{settle(p);changed()});
   });
 }
-let chT;function changed(){if(chT)return;chT=setTimeout(()=>{chT=null;paintLens();renderCmp();renderCompare()},160)}
+let chT;function changed(){if(chT)return;chT=setTimeout(()=>{chT=null;lens==='size'?(paintLens(),renderCmp()):render();renderCompare()},160)}
 
 /* ---------- state ---------- */
 let cols=[],sel=[],panelId=null,digging=null;
@@ -521,31 +525,71 @@ function layout(k,H){
   return items;
 }
 
+// every lens but Size swaps the fame strata for its own layers
+const GENERIC=new Set(['music','and','the','new','rock','pop']);
+function feats(p){const f={};for(const t of p.wt||[]){f[t.n]=(f[t.n]||0)+t.w;for(const w of t.n.split(/[\s\-\/&]+/))if(w.length>2&&!GENERIC.has(w))f['~'+w]=(f['~'+w]||0)+t.w*.5}return f}
+function styleMatch(a,b){
+  const x=feats(prof(a.id)),y=feats(prof(b.id));let d=0,nx=0,ny=0;
+  for(const k in x){nx+=x[k]*x[k];if(y[k])d+=x[k]*y[k]}for(const k in y)ny+=y[k]*y[k];
+  return nx&&ny?d/Math.sqrt(nx*ny):0;
+}
+const matchTo=(a,k)=>k===0?1:styleMatch(a,cols[k].parent);
+const WAIT={key:'wait',name:'Still listening',sub:'reading tags',quiet:true};
+function spec(){
+  const pr=a=>prof(a.id),miss=(a,key)=>pr(a).ready?key:'wait';
+  if(lens==='style')return{grad:true,bands:[{key:'twin',name:'Near twin',sub:'50%+ style match'},{key:'close',name:'Close',sub:'30–50% match'},{key:'related',name:'Related',sub:'12–30% match'},{key:'distant',name:'Distant',sub:'under 12%'},{key:'none',name:'No overlap',sub:'0% match'},{key:'notags',name:'No tags yet',sub:'unknown style',quiet:true},WAIT],
+    of:(a,k)=>{if(!pr(a).tags.length)return miss(a,'notags');const m=matchTo(a,k);return m>=.5?'twin':m>=.3?'close':m>=.12?'related':m>0?'distant':'none'},rank:(a,k)=>matchTo(a,k)};
+  if(lens==='vibe')return{bands:['chill','dreamy','rootsy','groovy','upbeat','headnod','heavy'].map(v=>({key:v,name:VIBES[v],dot:v})).concat({key:'none',name:'Hard to read',sub:'no mood tags',quiet:true},WAIT),
+    of:a=>pr(a).vibe||miss(a,'none'),rank:a=>a.nb_fan};
+  if(lens==='sound')return{bands:Object.keys(SOUNDS).map(v=>({key:v,name:SOUNDS[v][0],sub:'louder mixes higher'})).concat({key:'none',name:'Hard to read',sub:'no sound tags',quiet:true},WAIT),
+    of:a=>pr(a).sound||miss(a,'none'),rank:a=>pr(a).gain??-99};
+  return{grad:true,bands:[['2020s','2020 to now'],['2010s','2010–2019'],['2000s','2000–2009'],['1990s','1990–1999'],['1980s','1980–1989'],['1970s','1970–1979'],['Before 1970','the deep past']].map(([key,sub])=>({key,name:key,sub})).concat({key:'none',name:'Unknown',sub:'no release dates',quiet:true},WAIT),
+    of:a=>{const y=pr(a).start;return !y?miss(a,'none'):y>=2020?'2020s':y>=2010?'2010s':y>=2000?'2000s':y>=1990?'1990s':y>=1980?'1980s':y>=1970?'1970s':'Before 1970'},rank:a=>pr(a).start||0};
+}
+function bandLayout(){
+  const sp=spec(),GAP=small()?28:29,count={},per={};
+  cols.forEach((c,k)=>{if(c.error||!c.artists)return;const m={};per[k]={};
+    for(const a of shown(k)){const b=sp.of(a,k);(per[k][b]=per[k][b]||[]).push(a);m[b]=(m[b]||0)+1}
+    for(const b in m)count[b]=Math.max(count[b]||0,m[b])});
+  const used=sp.bands.filter(b=>count[b.key]);
+  let hs=used.map(b=>Math.max(58,count[b.key]*GAP+22));
+  const extra=Math.max(0,mapH()-HEADH-hs.reduce((x,y)=>x+y,0));
+  hs=hs.map(h=>h+extra/Math.max(1,used.length));
+  let y=HEADH;const ng=used.filter(b=>!b.quiet).length;let gi=0;
+  const bands=used.map((b,i)=>{const o={...b,top:y,h:hs[i],cls:b.quiet?'bq':sp.grad?'b'+Math.round(gi++*5/Math.max(1,ng-1)):'b'+(i%2)};y+=hs[i];return o});
+  const at={};
+  for(const k in per)for(const b of bands){const list=(per[k][b.key]||[]).sort((p,q)=>sp.rank(q,+k)-sp.rank(p,+k)||q.nb_fan-p.nb_fan);
+    const y0=b.top+(b.h-list.length*GAP)/2+GAP/2;list.forEach((a,i)=>at[`${k}:${a.id}`]=y0+i*GAP)}
+  return{bands,H:y,at};
+}
+
 /* ---------- render map ---------- */
-let pos={},grownFor=-1;
+let pos={},grownFor=-1,lensMoved=false;
 function render(){
-  const map=$('#map'),H=mapH(),cw=COLW(),ax=AXW();
+  const map=$('#map'),B=lens!=='size'?bandLayout():null,H=B?B.H:mapH(),cw=COLW(),ax=AXW();
   const ncols=cols.length+(digging!=null&&digging>=cols.length?1:0);
   const W=Math.max(ax+26+Math.max(ncols,1)*cw+60,$('#mapwrap').clientWidth);
   map.style.cssText=`width:${W}px;height:${H}px;--axw:${ax}px;--headh:${HEADH}px;--nodew:${cw-36}px`;
   const fk=document.activeElement?.closest?.('.node')?.dataset;const refocus=fk&&{col:fk.col,id:fk.id};
   let h=`<div class="head" style="height:${HEADH}px"></div>`;
   // strata
-  const bounds=[LTOP,6,5,4,3,2,LBOT].map(l=>yOf(10**l,H));
-  bounds[0]=HEADH;bounds[6]=H;
-  BANDS.forEach((b,i)=>{h+=`<div class="band b${i}" style="top:${bounds[i]}px;height:${bounds[i+1]-bounds[i]}px"><span class="bl">${b.name}<small>${b.range}</small></span></div>`});
+  if(B)B.bands.forEach(b=>{h+=`<div class="band ${b.cls}" style="top:${b.top}px;height:${b.h}px"><span class="bl">${b.dot?`<i class="vd" style="--vc:var(--v-${b.dot})"></i>`:''}${esc(b.name)}${b.sub?`<small>${esc(b.sub)}</small>`:''}</span></div>`});
+  else{const bounds=[LTOP,6,5,4,3,2,LBOT].map(l=>yOf(10**l,H));
+    bounds[0]=HEADH;bounds[6]=H;
+    BANDS.forEach((b,i)=>{h+=`<div class="band b${i}" style="top:${bounds[i]}px;height:${bounds[i+1]-bounds[i]}px"><span class="bl">${b.name}<small>${b.range}</small></span></div>`})}
+  const old={};map.querySelectorAll('.node').forEach(n=>old[n.dataset.col+':'+n.dataset.id]=n.offsetTop);
   let svg='',nodes='';pos={};
   const trail=new Set(sel);
   cols.forEach((c,k)=>{
     const x=colX(k);
     h+=`<div class="ch" style="left:${x}px;width:${cw-24}px">${k===0?'<b>You started here</b>':`<span>Like</span><b>${esc(c.parent.name)}</b>`}</div>`;
     if(c.error){nodes+=`<div class="colmsg" style="left:${x}px;top:${HEADH+20}px">Couldn't reach the music catalog. Check your connection.<br><button class="btn" data-retry="${k}">Try again</button></div>`;return}
-    const items=layout(k,H);
+    const items=B?shown(k).map(a=>({a,y:B.at[`${k}:${a.id}`]})).map(it=>({...it,ty:it.y})).sort((p,q)=>p.y-q.y):layout(k,H);
     if(!items.length){nodes+=`<div class="colmsg" style="left:${x}px;top:${HEADH+20}px">${c.artists.length?`Nobody here is less known than ${esc(c.parent.name)}. Turn off “Only go deeper” to see all ${c.artists.length}.`:`Deezer doesn't list anyone similar to ${esc(c.parent.name)} yet. Try another artist on your trail.`}</div>`;return}
     svg+=`<line class="spine" x1="${x}" y1="${HEADH+8}" x2="${x}" y2="${H-8}"/>`;
     for(const it of items){
       const a=it.a,cx=x+22;pos[`${k}:${a.id}`]={x:cx,y:it.y,ty:it.ty};
-      svg+=`<line class="tick" data-r="${k}:${a.id}" x1="${x-4}" y1="${it.ty}" x2="${x+4}" y2="${it.ty}"/><path class="lead" data-r="${k}:${a.id}" d="M${x} ${it.ty}L${cx-13} ${it.y}"/>`;
+      if(!B)svg+=`<line class="tick" data-r="${k}:${a.id}" x1="${x-4}" y1="${it.ty}" x2="${x+4}" y2="${it.ty}"/><path class="lead" data-r="${k}:${a.id}" d="M${x} ${it.ty}L${cx-13} ${it.y}"/>`;
       const on=sel[k]===a.id,onTrail=!on&&k>0&&trail.has(a.id)&&sel.indexOf(a.id)<k;
       nodes+=`<button class="node${on?' on':''}${onTrail?' seen':''}${playingArtist===a.id&&!audio.paused?' playing':''}${k===grownFor?' new':''}" data-col="${k}" data-id="${a.id}" style="left:${x+9}px;top:${it.y-13}px;${k===grownFor?`animation-delay:${items.indexOf(it)*18}ms`:''}" aria-label="${esc(a.name)}, ${fmtN(a.nb_fan)} fans${on?', selected':''}"><img src="${esc(a.picture_small||'')}" alt="" loading="lazy"><span class="nm">${esc(a.name)}</span><span class="fn">${short(a.nb_fan)}</span></button>`;
     }
@@ -563,9 +607,12 @@ function render(){
   });
   if(digging!=null){const x=colX(digging),p=pos[`${digging-1}:${sel[digging-1]}`];
     nodes+=`<div class="digging" style="left:${x}px;top:${(p?.y||HEADH+40)-14}px"><i></i>Digging…</div>`}
-  h+=`<svg class="lines" width="${W}" height="${H}" aria-hidden="true">${svg}</svg>`+nodes;
+  h+=`<svg class="lines${lensMoved?' fade':''}" width="${W}" height="${H}" aria-hidden="true">${svg}</svg>`+nodes;
   map.innerHTML=h;
-  grownFor=-1;
+  // slide each artist from its old layer to its new one
+  map.querySelectorAll('.node').forEach(n=>{const o=old[n.dataset.col+':'+n.dataset.id];if(o==null)return;const dy=o-n.offsetTop;if(Math.abs(dy)<1)return;
+    n.style.transform=`translateY(${dy}px)`;n.getBoundingClientRect();n.style.transition='transform .55s cubic-bezier(.2,.8,.2,1)';n.style.transform=''});
+  grownFor=-1;lensMoved=false;
   $('#intro').hidden=cols.length>0;
   paintLens();renderCmp();
   if(refocus){const n=map.querySelector(`.node[data-col="${refocus.col}"][data-id="${refocus.id}"]`);n?.focus({preventScroll:true})}
@@ -582,7 +629,7 @@ function renderTrail(){
 }
 
 /* ---------- compare lenses & filters ---------- */
-const WHY={size:'Fans, next to the artist each one came from.',style:'Genre tags from MusicBrainz, or Deezer genres.',vibe:'Mood, read from their style tags.',sound:'Main instruments from their tags. Bars show how loud their top tracks are mixed.',era:'Year of their first release.'};
+const WHY={size:'Up is better known. Fans from Deezer.',style:'Up is closer in style to the artist each one came from.',vibe:'Layered by mood, read from their style tags.',sound:'Layered by main sound. Louder mixes sit higher.',era:'Newest on top, oldest at the bottom.'};
 function rel(a,k){const f=cols[k]?.parent?.nb_fan;if(!f)return null;const r=f/Math.max(1,a.nb_fan);return r>=1.5?'less':r<=1/1.5?'more':'same'}
 const shared=(a,par)=>{const t=prof(par.id).tags;return prof(a.id).tags.filter(x=>t.includes(x))};
 const anyF=()=>Object.values(F).some(Boolean);
@@ -597,12 +644,12 @@ function matches(a,k){
   return true;
 }
 const meter=l=>`<i class="lm ${l}" aria-hidden="true"><b></b><b></b><b></b></i>`;
-function lensLabel(a){
+function lensLabel(a,k){
   const p=prof(a.id),none=p.ready?'—':'<span class="pend">···</span>';
   if(lens==='size')return short(a.nb_fan);
-  if(lens==='style')return p.tags[0]?esc(p.tags[0]):none;
+  if(lens==='style')return p.tags[0]?`${Math.round(matchTo(a,k)*100)}%`:none;
   if(lens==='vibe')return p.vibe?VIBES[p.vibe]:none;
-  if(lens==='sound')return p.sound||p.loud?`${p.sound?SOUNDS[p.sound][1]:''}${p.loud?meter(p.loud):''}`:none;
+  if(lens==='sound')return p.loud?`${LOUD[p.loud]}${meter(p.loud)}`:p.sound?SOUNDS[p.sound][1]:none;
   return p.start?String(p.start):none;
 }
 function summary(a){const p=prof(a.id);return [`${fmtN(a.nb_fan)} fans`,p.vibe&&VIBES[p.vibe],p.sound&&SOUNDS[p.sound][0],p.loud&&`${LOUD[p.loud].toLowerCase()} mix`,p.start&&`since ${p.start}`,p.tags.slice(0,3).join(', ')].filter(Boolean).join(' · ')}
@@ -611,7 +658,7 @@ function paintLens(){
   map.querySelectorAll('.node').forEach(n=>{
     const k=+n.dataset.col,a=cols[k]?.artists?.find(x=>String(x.id)===n.dataset.id);if(!a)return;
     const p=prof(a.id),vb=lens==='vibe'&&p.vibe;
-    n.querySelector('.fn').innerHTML=lensLabel(a);n.title=summary(a);
+    n.querySelector('.fn').innerHTML=lensLabel(a,k);n.title=summary(a);
     n.classList.toggle('vb',!!vb);vb?n.style.setProperty('--vc',`var(--v-${vb})`):n.style.removeProperty('--vc');
     const dim=filt&&!n.classList.contains('on')&&!matches(a,k);
     n.classList.toggle('dim',dim);map.querySelectorAll(`[data-r="${k}:${a.id}"]`).forEach(l=>l.classList.toggle('dim',dim));
@@ -639,7 +686,7 @@ function renderCmp(){
   $('#cmeta').innerHTML=(pend&&lens!=='size'?`<span class="load"><i></i>Reading ${all.length-pend} of ${all.length}</span>`:'')+
     (anyF()?`<span class="cnt">${ok} of ${all.length} match</span><button class="lnk" data-clear="all">Clear filters</button>`:`<span class="why">${WHY[lens]}</span>`);
 }
-function setLens(l){lens=l;try{localStorage.setItem('deepcut.lens',l)}catch(e){}paintLens();renderCmp()}
+function setLens(l){if(l!==lens)lensMoved=true;lens=l;try{localStorage.setItem('deepcut.lens',l)}catch(e){}render()}
 function setF(f,v){F[f]=F[f]===v?null:v;paintLens();renderCmp()}
 function onCmpClick(e){
   const l=e.target.closest('[data-lens]');if(l){setLens(l.dataset.lens);return}
@@ -736,7 +783,7 @@ function renderCompare(){
   let h=`<div class="cg${par?'':' one'}">`;
   if(par)h+=`<span class="hd"></span><span class="hd">${esc(a.name)}</span><span class="hd vs">vs ${esc(par.name)}</span>`;
   for(const [lbl,f] of [['Size','size'],['Style','style'],['Vibe','vibe'],['Sound','sound'],['Started','era']])
-    h+=`<span class="k">${lbl}</span><div>${cell[f](a,par)}</div>${par?`<div>${cell[f](par,a)}</div>`:''}`;
+    h+=`<span class="k">${lbl}</span><div>${cell[f](a,par)}${f==='style'&&par&&prof(a.id).tags.length&&prof(par.id).tags.length?`<small>${Math.round(styleMatch(a,par)*100)}% style match</small>`:''}</div>${par?`<div>${cell[f](par,a)}</div>`:''}`;
   h+='</div>';
   if(par&&prof(a.id).ready&&prof(par.id).ready)h+=`<p class="cmp-sum">${esc(sentence(a,par))}</p>`;
   el.innerHTML=h;
